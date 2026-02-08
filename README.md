@@ -35,3 +35,29 @@ Try to delete nonexists person:
 
 Delete existing person:
 [phonebook-api/requests/delete_person_number_2_exists.rest](phonebook-api/requests/delete_person_number_2_exists.rest)
+
+## 3.5: puhelinluettelon backend step5
+
+[phonebook-api/requests/create_new_person.rest](phonebook-api/requests/create_new_person.rest)
+
+## 3.6: puhelinluettelon backend step6
+
+Add empty person information, return all errors on one.
+
+[phonebook-api/requests/create_new_person_empty_fields.rest](phonebook-api/requests/create_new_person_empty_fields.rest)
+
+Try add missing name information to person
+
+[phonebook-api/requests/create_new_person_missing_name.rest](phonebook-api/requests/create_new_person_missing_name.rest)
+
+Try add missing phonenumber information to person
+
+[phonebook-api/requests/create_new_person_missing_phonenumber.rest](phonebook-api/requests/create_new_person_missing_phonenumber.rest)
+
+Tryt add just added person again:
+
+[phonebook-api/requests/create_new_person_dublicate.rest](phonebook-api/requests/create_new_person_dublicate.rest)
+
+Add new person
+
+[phonebook-api/requests/delete_non_exits_person.rest](phonebook-api/requests/delete_non_exits_person.rest)

@@ -59,19 +59,54 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(204).end(); 
 });
 
-app.post('/api/persons', (req, res) => { 
-  const body = req.body; 
-  const newId =  Math.floor(Math.random() * 1000000);
-  const person = { 
-    id:newId, 
-    name: body.name, 
-    number: body.number 
-  }; 
-  persons = persons.concat(person); 
-  // resource URL generation, where is location, where can get creatred sesource? 
+app.post('/api/persons', (req, res) => {
+  const body = req.body;
+  const errors = [];
+
+  // Check input fields
+  if (!body.name) 
+  {
+    errors.push('name missing');
+  }
+
+  if (!body.number) 
+  {
+    errors.push('number missing');
+  }
+
+  // Check is name already exists
+  const nameExists = persons.find(p => p.name === body.name);
+  if (nameExists) 
+  {
+    errors.push('name must be unique');
+  }
+
+  // If there is errors, return all error same time
+  if (errors.length > 0) 
+    {
+    return res.status(400).json({ errors });
+  }
+
+  // Create id
+  const newId = Math.floor(Math.random() * 10000000);
+
+  const person = {
+    id: newId,
+    name: body.name,
+    number: body.number
+  };
+
+  persons = persons.concat(person);
+
+  // Resource location where created resource can be load later....
   const resourceUrl = `/api/persons/${newId}`;
-  res.status(201).location(resourceUrl).json(person); 
+
+  res
+    .status(201)
+    .location(resourceUrl)
+    .json(person);
 });
+
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
