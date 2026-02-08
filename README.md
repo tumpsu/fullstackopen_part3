@@ -23,4 +23,15 @@ Person found on server:
 [phonebook-api/requests/get_person_2_who_found.rest](phonebook-api/requests/get_person_2_who_found.rest)
 
 Person not found:
+[](phonebook-api/requests/get_person_9099_not_found.rest)
 
+
+## 3.4: puhelinluettelon backend step4
+
+Implemented so that if the person to be deleted is found, the deletion is done and an HTTP status code 204 is returned. If the person to be deleted is not found, a 404 HTTP status code is returned. I like this approach, which I have been using in the C# world for 20 years.
+
+Try to delete nonexists person:
+[phonebook-api/requests/delete_non_exits_person.rest](phonebook-api/requests/delete_non_exits_person.rest)
+
+Delete existing person:
+[phonebook-api/requests/delete_person_number_2_exists.rest](phonebook-api/requests/delete_person_number_2_exists.rest)
