@@ -1,0 +1,27 @@
+{
+  "name": "phonebookapi",
+  "version": "0.0.1",
+  "description": "Phonebook Restfull API",
+  "keywords": [
+    "node.js",
+    "Express",
+    "phonebookAPI"
+  ],
+  "homepage": "https://github.com/tumpsu/fullstackopen_part3#readme",
+  "bugs": {
+    "url": "https://github.com/tumpsu/fullstackopen_part3/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tumpsu/fullstackopen_part3.git"
+  },
+  "license": "MIT",
+  "author": "Tuomas Keskitalo",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
