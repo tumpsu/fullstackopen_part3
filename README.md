@@ -16,3 +16,11 @@ VS Code rest kutsu:
 ## 3.2: puhelinluettelon backend step2
 
 [phonebook-api/requests/get_info_reguest.rest)](phonebook-api/requests/get_info_reguest.rest)
+
+## 3.3: puhelinluettelon backend step3
+
+Person found on server:
+[phonebook-api/requests/get_person_2_who_found.rest](phonebook-api/requests/get_person_2_who_found.rest)
+
+Person not found:
+
