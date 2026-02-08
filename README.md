@@ -61,3 +61,22 @@ Tryt add just added person again:
 Add new person
 
 [phonebook-api/requests/delete_non_exits_person.rest](phonebook-api/requests/delete_non_exits_person.rest)
+
+3.7: puhelinluettelon backend step7
+
+No spesific .rest file, use anything. 
+
+3.8*: puhelinluettelon backend step8
+
+Try ay post action .rest files
+[phonebook-api/requests/create_new_person.rest](phonebook-api/requests/create_new_person.rest)
+
+[phonebook-api/requests/create_new_person_dublicate.rest](phonebook-api/requests/create_new_person_dublicate.rest)
+
+[phonebook-api/requests/create_new_person_empty_fields.rest](phonebook-api/requests/create_new_person_empty_fields.rest)
+
+[phonebook-api/requests/create_new_person_missing_name.rest](phonebook-api/requests/create_new_person_missing_name.rest)
+
+[phonebook-api/requests/create_new_person_missing_phonenumber.rest](phonebook-api/requests/create_new_person_missing_phonenumber.rest)
+
+[phonebook-api/requests/create_new_person_new_perons.rest](phonebook-api/requests/create_new_person_new_perons.rest)
