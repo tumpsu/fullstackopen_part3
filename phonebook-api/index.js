@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 
 let persons = [
   { 
@@ -58,6 +59,19 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(204).end(); 
 });
 
+app.post('/api/persons', (req, res) => { 
+  const body = req.body; 
+  const newId =  Math.floor(Math.random() * 1000000);
+  const person = { 
+    id:newId, 
+    name: body.name, 
+    number: body.number 
+  }; 
+  persons = persons.concat(person); 
+  // resource URL generation, where is location, where can get creatred sesource? 
+  const resourceUrl = `/api/persons/${newId}`;
+  res.status(201).location(resourceUrl).json(person); 
+});
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
