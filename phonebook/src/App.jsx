@@ -24,7 +24,7 @@ const App = () => {
   personService
     .getAll()
     .then(initialPersons => {
-      console.log('promise fulfilled', initialPersons);
+      console.log('promise fulfilled');
       setPersons(initialPersons);
     });
 }, []);
@@ -54,7 +54,7 @@ const handleSubmit = (event) => {
           showNotification(`Updated number for ${returnedPerson.name}.`, 'success');
         })
         .catch(error => { 
-          showNotification(`Information of ${nameExists.name} has already been removed from server.`, 'error'); 
+          showNotification(`Information of ${nameExists.name} update failed.`, 'error'); 
           setPersons(persons.filter(p => p.id !== nameExists.id)); 
         });
     }

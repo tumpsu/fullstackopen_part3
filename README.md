@@ -80,3 +80,20 @@ Try ay post action .rest files
 [phonebook-api/requests/create_new_person_missing_phonenumber.rest](phonebook-api/requests/create_new_person_missing_phonenumber.rest)
 
 [phonebook-api/requests/create_new_person_new_perons.rest](phonebook-api/requests/create_new_person_new_perons.rest)
+
+
+## 3.9 puhelinluettelon backend step9
+
+Done.
+## 3.10 puhelinluettelon backend step10
+
+Sovelluksen osoite:
+https://fullstackopen-part3-dmc2.onrender.com/
+
+Rest API test call
+[phonebook/src/requests/get_all_persons.rest](phonebook/src/requests/get_all_persons.rest)
+
+## 3.11 puhelinluettelo full stack
+
+Deploy commands to include frontend to backend is 
+[]()
