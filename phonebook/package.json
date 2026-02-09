@@ -1,0 +1,33 @@
+{
+  "name": "phonebook",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.13.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "server": "json-server -p 3001 db.json",
+    "buildui": "rimraf dist && cd ../phonebook && npm run build && cpy dist ../phonebook-api --recursive",
+    "deployfull": "npm run buildui && git add . && git commit -m uibuild && git pushnpm run build:ui"
+  },
+
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "json-server": "^1.0.0-beta.5",
+    "vite": "^7.2.4"
+  }
+}
