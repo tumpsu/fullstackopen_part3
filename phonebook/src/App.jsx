@@ -74,7 +74,9 @@ const handleSubmit = (event) => {
       setNewNumber('');
       showNotification(`Added ${returnedPerson.name}.`, 'success');
     })
-    .catch(error => { showNotification('Add failed.', 'error') })
+    .catch(error => { showNotification('Add failed.', 'error');
+      console.log('Error: ', error);
+     });
 }
 
   const handleNameChange = (event) => {
