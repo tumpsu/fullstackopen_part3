@@ -95,5 +95,7 @@ Rest API test call
 
 ## 3.11 puhelinluettelo full stack
 
-Deploy commands to include frontend to backend is 
-[]()
+## 3.12: tietokanta komentoriviltä
+
+File is:
+[phonebook-api/index.js](phonebook-api/index.js)
