@@ -23,7 +23,7 @@ Person found on server:
 [phonebook-api/requests/get_person_2_who_found.rest](phonebook-api/requests/get_person_2_who_found.rest)
 
 Person not found:
-[](phonebook-api/requests/get_person_9099_not_found.rest)
+[phonebook-api/requests/get_person_999_not_found.rest](phonebook-api/requests/get_person_999_not_found.rest)
 
 
 ## 3.4: puhelinluettelon backend step4
