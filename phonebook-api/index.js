@@ -18,12 +18,19 @@ morgan.token('body', (req) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 app.use(morgan('tiny'));
 
-app.get('/info', async (req, res) => { 
-  const count = await Person.countDocuments({}); 
-  res.send(` <p>Phonebook has info for ${count} people</p> <p>${new Date()}</p> `);
+app.get('/info', async (req, res, next) => {
+  try
+  { 
+    const count = await Person.countDocuments({}); 
+    res.send(` <p>Phonebook has info for ${count} people</p> <p>${new Date()}</p> `);
+  } 
+  catch (error) 
+  { 
+    next(error); 
+  }
 });
 
-app.get('/api/persons', async (req, res) => {
+app.get('/api/persons', async (req, res, next) => {
   const persons = await Person.find({}); 
   res.json(persons);
 });
