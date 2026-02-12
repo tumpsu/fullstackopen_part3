@@ -28,32 +28,47 @@ app.get('/api/persons', async (req, res) => {
   res.json(persons);
 });
 
-app.get('/api/persons/:id', async (req, res) => {
-  const id = Number(req.params.id); 
-  const person = await Person.findById(id); 
-  if (!person) 
+app.get('/api/persons/:id', async (req, res, next) => {
+  try
   {
-     return res
-      .status(404)
-      .json({ error: 'person not found' });
-   } 
-   res.json(person);
+    const id = Number(req.params.id); 
+    const person = await Person.findById(id); 
+    if (!person) 
+    {
+       return res
+        .status(404)
+        .json({ error: 'person not found' });
+     } 
+     res.json(person);
+    } catch (error) 
+    { 
+      next(error); 
+    }
 });
 
-app.delete('/api/persons/:id', async (req, res) => { 
-  const id = Number(req.params.id); 
-  const person = await Person.findById(id); 
-  if (!person) 
-  { 
-    return res
-      .status(404)
-      .json({ error: 'person not found' }); 
+app.delete('/api/persons/:id', async (req, res, next) => { 
+  try
+  {
+    const id = Number(req.params.id); 
+    const person = await Person.findById(id); 
+    if (!person) 
+    { 
+      return res
+        .status(404)
+        .json({ error: 'person not found' }); 
+    } 
+    await Person.findByIdAndDelete(id); 
+    res
+      .status(204)
+      .end();
   } 
-  await Person.findByIdAndDelete(id); 
-  res.status(204).end();
+  catch (error) 
+  { 
+      next(error);
+  }
 });
 
-app.post('/api/persons', async (req, res) => {
+app.post('/api/persons', async (req, res, next) => {
   const body = req.body;
   const errors = [];
   try
@@ -101,17 +116,37 @@ app.post('/api/persons', async (req, res) => {
   }
   catch (error) 
   { 
-    console.error('Save failed:', error); // MongoDB/Mongoose errors → 400 Bad Request 
-    if (error.name === 'ValidationError' || error.name === 'MongoServerError') 
-    { 
-      return res
-      .status(400)
-      .json({ error: error.message }); 
-    } 
-    // Other error → 500 Internal Server Error 
-    return res.status(500).json({ error: 'server error' });
+    next(error); 
   }
 });
+
+// Unknown endpoint
+app.use((req, res) => {
+  res
+    .status(404)
+    .send({ error: 'unknown endpoint' });
+});
+
+// Error handler middleware
+app.use((error, req, res, next) => {
+  console.error(error.message);
+
+  if (error.name === 'CastError') 
+    {
+    return res
+      .status(400)
+      .json({ error: 'malformatted id' });
+  }
+
+  if (error.name === 'ValidationError') 
+  {
+    return res
+      .status(400)
+      .json({ error: error.message });
+  }
+  next(error);
+});
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
