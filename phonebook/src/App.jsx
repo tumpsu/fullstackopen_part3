@@ -54,8 +54,8 @@ const handleSubmit = (event) => {
           showNotification(`Updated number for ${returnedPerson.name}.`, 'success');
         })
         .catch(error => { 
-          showNotification(`Information of ${nameExists.name} update failed.`, 'error'); 
-          setPersons(persons.filter(p => p.id !== nameExists.id)); 
+          showNotification(error.response.data.error, 'error'); 
+          console.log(error.response.data); 
         });
     }
     return;
@@ -74,9 +74,10 @@ const handleSubmit = (event) => {
       setNewNumber('');
       showNotification(`Added ${returnedPerson.name}.`, 'success');
     })
-    .catch(error => { showNotification('Add failed.', 'error');
-      console.log('Error: ', error);
-     });
+    .catch(error => { 
+      showNotification(error.response.data.error, 'error'); 
+      console.log(error.response.data); 
+    });
 }
 
   const handleNameChange = (event) => {
