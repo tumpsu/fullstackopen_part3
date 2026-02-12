@@ -117,3 +117,27 @@ File is:
 
 Update (PUT) person:
 [phonebook-api/requests/update_person_number.rest](phonebook-api/requests/update_person_number.rest)
+
+## 3.19: puhelinluettelo ja tietokanta, step7
+
+## 3.20*: puhelinluettelo ja tietokanta, step8
+
+invalid phone number tests:
+
+Test phone number 1-22334455:
+[phonebook-api/requests/create_new_person-invalid-phone1-example.rest](phonebook-api/requests/create_new_person-invalid-phone1-example.rest)
+
+Test phone number 10-22-334455:
+[phonebook-api/requests/create_new_person-invalid-phone2-example.rest](phonebook-api/requests/create_new_person-invalid-phone2-example.rest)
+
+Test phone number 1234556
+[phonebook-api/requests/create_new_person-invalid-phone2-example.rest](phonebook-api/requests/create_new_person-invalid-phone2-example.rest)
+
+Valid phone number: 040-22334455
+[phonebook-api/requests/create_new_person-ialid-phone1-example.rest](phonebook-api/requests/create_new_person-ialid-phone1-example.rest)
+
+Valid phone number 09-1234556
+[phonebook-api/requests/create_new_person-ialid-phone2-example.rest](phonebook-api/requests/create_new_person-ialid-phone2-example.rest)
+
+## 3.21 tietokantaa käyttävä versio Internetiin
+

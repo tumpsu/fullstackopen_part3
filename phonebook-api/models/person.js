@@ -20,7 +20,14 @@ const personSchema = new mongoose.Schema({
 },
 number: {
   type: String,
-  required: true
+  required: true,
+  validate: { 
+    validator: function(v) { 
+      // accept only example 09-1234567 or 040-22334455 
+      return /^\d{2,3}-\d+$/.test(v); 
+  }, 
+  message: props => `${props.value} is not a valid phone number!` 
+  }
 }   
 });
 

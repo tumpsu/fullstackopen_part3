@@ -14,8 +14,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "json-server -p 3001 db.json",
-    "build:ui": "rimraf dist && cd ../phonebook && npm run build && cpy dist ../phonebook-api --recursive"
-  },
+    "build:ui": "rimraf ../phonebook-api/dist && cd ../phonebook && npm run build && cpy dist ../phonebook-api --recursive"
+},
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/react": "^19.2.5",
