@@ -1,29 +1,27 @@
 const mongoose = require('mongoose');
 
-module.exports = (password) => {
-  const url =
-    `mongodb+srv://keskitalotuomas_db_user:${password}` +
-    `@phonebook.xaiobo6.mongodb.net/phonebook?retryWrites=true&w=majority&authSource=admin`;
+const url = process.env.MONGODB_URI;
+  
+mongoose.set('strictQuery', false);
 
-  mongoose.set('strictQuery', false);
+mongoose.connect(url, { family: 4 })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-  mongoose.connect(url, { family: 4 })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('MongoDB connection error:', err));
+const personSchema = new mongoose.Schema({
+  _id: { type: Number, required: true },
+  name: String,
+  number: String,
+});
 
-  const personSchema = new mongoose.Schema({
-    _id: { type: Number, required: true },
-    name: String,
-    number: String,
-  });
+personSchema.set('toJSON', { 
+  transform: (document, returnedObject) => { 
+    if (returnedObject._id !== undefined && returnedObject._id !== null) 
+    { returnedObject.id = returnedObject._id.toString(); 
 
-  personSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-      returnedObject.id = returnedObject._id.toString();
-      delete returnedObject._id;
-      delete returnedObject.__v;
-    }
-  });
+    } 
+    delete returnedObject._id; 
+    delete returnedObject.__v; } 
+});
 
-  return mongoose.model('Person', personSchema);
-};
+module.exports = mongoose.model('Person', personSchema, 'people');

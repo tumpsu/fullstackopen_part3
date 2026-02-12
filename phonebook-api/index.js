@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -6,14 +7,7 @@ app.use(express.static('dist'));
 app.use(cors());
 app.use(express.json());
 
-const password = encodeURIComponent(process.argv[2]);
-
-if (!password) 
-{ 
-  console.log('Please provide the password as an argument: node index.js <password>');
-  process.exit(1);
-}
-const Person = require('./models/person')(password);
+const Person = require('./models/person');
 
 morgan.token('body', (req) => { 
   return req.method === 'POST' ? 
