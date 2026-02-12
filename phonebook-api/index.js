@@ -24,88 +24,99 @@ morgan.token('body', (req) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 app.use(morgan('tiny'));
 
-app.get('/info', (req, res) => { 
-    const count = persons.length; 
-    const date = new Date(); 
-    res.send(` <p>Phonebook has info for ${count} people</p> <p>${date}</p> `); 
+app.get('/info', async (req, res) => { 
+  const count = await Person.countDocuments({}); 
+  res.send(` <p>Phonebook has info for ${count} people</p> <p>${new Date()}</p> `);
 });
 
-app.get('/api/persons', (req, res) => {
-  Person.find({}).then(persons => {
-    res.json(persons);
-  });
+app.get('/api/persons', async (req, res) => {
+  const persons = await Person.find({}); 
+  res.json(persons);
 });
 
-app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id); 
-    const person = persons.find(p => p.id === id); 
-    if (person) 
-    { 
-        res.json(person); 
-    }
-    else 
-    { 
-        res.status(404).end();
-    } 
+app.get('/api/persons/:id', async (req, res) => {
+  const id = Number(req.params.id); 
+  const person = await Person.findById(id); 
+  if (!person) 
+  {
+     return res
+      .status(404)
+      .json({ error: 'person not found' });
+   } 
+   res.json(person);
 });
 
-app.delete('/api/persons/:id', (req, res) => { 
-    const id = Number(req.params.id); 
-    const person = persons.find(p => p.id === id); // Check is poerson exists or not
-    if (!person) 
-    { 
-        return res.status(404).json({ error: 'person not found' });
-    } 
-    persons = persons.filter(p => p.id !== id); 
-    res.status(204).end(); 
+app.delete('/api/persons/:id', async (req, res) => { 
+  const id = Number(req.params.id); 
+  const person = await Person.findById(id); 
+  if (!person) 
+  { 
+    return res
+      .status(404)
+      .json({ error: 'person not found' }); 
+  } 
+  await Person.findByIdAndDelete(id); 
+  res.status(204).end();
 });
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', async (req, res) => {
   const body = req.body;
   const errors = [];
-
-  // Check input fields
-  if (!body.name) 
+  try
   {
-    errors.push('name missing');
-  }
-
-  if (!body.number) 
-  {
-    errors.push('number missing');
-  }
-
-  // Check is name already exists
-  const nameExists = persons.find(p => p.name === body.name);
-  if (nameExists) 
-  {
-    errors.push('name must be unique');
-  }
-
-  // If there is errors, return all error same time
-  if (errors.length > 0) 
+    // Check input fields
+    if (!body.name) 
     {
-    return res.status(400).json({ errors });
+      errors.push('name missing');
+    }
+
+    if (!body.number) 
+    {
+      errors.push('number missing');
+    }
+    // IS person already exists
+    const nameExists = await Person.findOne({ name: body.name });
+    if (nameExists) 
+    {
+      errors.push('name must be unique');
+    }
+
+    // If there is errors, return all error same time
+    if (errors.length > 0) 
+      {
+      return res.status(400).json({ errors });
+    }
+
+    // Create id
+    const newId = Math.floor(Math.random() * 10000000);
+
+    const person = new Person({
+      _id: newId,
+      name: body.name,
+      number: body.number
+    });
+
+    const saved = await person.save();
+
+    // Resource location where created resource can be load later....
+    const resourceUrl = `/api/persons/${newId}`;
+    res
+      .status(201)
+      .location(resourceUrl)
+      .json(person);
   }
-
-  // Create id
-  const newId = Math.floor(Math.random() * 10000000);
-
-  const person = {
-    id: newId,
-    name: body.name,
-    number: body.number
-  };
-
-  persons = persons.concat(person);
-
-  // Resource location where created resource can be load later....
-  const resourceUrl = `/api/persons/${newId}`;
-
-  res
-    .status(201)
-    .location(resourceUrl)
-    .json(person);
+  catch (error) 
+  { 
+    console.error('Save failed:', error); // MongoDB/Mongoose errors → 400 Bad Request 
+    if (error.name === 'ValidationError' || error.name === 'MongoServerError') 
+    { 
+      return res
+      .status(400)
+      .json({ error: error.message }); 
+    } 
+    // Other error → 500 Internal Server Error 
+    return res.status(500).json({ error: 'server error' });
+  }
 });
 
 const PORT = process.env.PORT || 3001;

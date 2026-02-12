@@ -12,6 +12,7 @@ module.exports = (password) => {
     .catch(err => console.error('MongoDB connection error:', err));
 
   const personSchema = new mongoose.Schema({
+    _id: { type: Number, required: true },
     name: String,
     number: String,
   });
