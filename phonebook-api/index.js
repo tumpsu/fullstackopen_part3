@@ -120,6 +120,37 @@ app.post('/api/persons', async (req, res, next) => {
   }
 });
 
+app.put('/api/persons/:id', async (req, res, next) => {
+  try 
+  {
+    const { name, number } = req.body;
+
+    const updatedPerson = await Person.findByIdAndUpdate(
+      req.params.id,
+      { name, number },
+      {
+        new: true,            // Return updated document
+        runValidators: true,  // Use schema validation
+        context: 'query'      // Mongoose validation 
+      }
+    );
+
+    if (!updatedPerson) 
+    {
+      return res
+      .status(404)
+      .json({ error: 'person not found' });
+    }
+
+    res.json(updatedPerson);
+
+  } 
+  catch (error) 
+  {
+    next(error);
+  }
+});
+
 // Unknown endpoint
 app.use((req, res) => {
   res
