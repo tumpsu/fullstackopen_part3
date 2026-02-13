@@ -110,8 +110,8 @@ const handleSubmit = (event) => {
     // case-insensive filter 
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
     return (
-              <div>
-                <h2>Phonebook</h2>
+              <div className="app-container">
+                <h2 className="app-title">Phonebook</h2>
                 <Filter filter={filter} handleFilterChange={handleFilterChange} />
                 <Notification message={notification} />
                 <h3>Add a new</h3>
