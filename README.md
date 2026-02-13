@@ -141,3 +141,6 @@ Valid phone number 09-1234556
 
 ## 3.21 tietokantaa käyttävä versio Internetiin
 
+## 3.22: lint-konfiguraatio
+
+Done all tasks.
