@@ -1,0 +1,20 @@
+
+> phonebookapi@0.0.1 lint
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 10.0.0
+
+ReferenceError: js is not defined
+    at file:///E:/src/fullstackopen/fullstackopen_part3/phonebook-api/eslint.config.mjs?mtime=1771001006000:2:3
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)
+    at async dynamicImportConfig (E:\src\fullstackopen\fullstackopen_part3\phonebook-api\node_modules\eslint\lib\config\config-loader.js:185:17)
+    at async loadConfigFile (E:\src\fullstackopen\fullstackopen_part3\phonebook-api\node_modules\eslint\lib\config\config-loader.js:275:9)
+    at async ConfigLoader.calculateConfigArray (E:\src\fullstackopen\fullstackopen_part3\phonebook-api\node_modules\eslint\lib\config\config-loader.js:588:23)
+    at async #calculateConfigArray (E:\src\fullstackopen\fullstackopen_part3\phonebook-api\node_modules\eslint\lib\config\config-loader.js:369:19)
+    at async directoryFilter (E:\src\fullstackopen\fullstackopen_part3\phonebook-api\node_modules\eslint\lib\eslint\eslint-helpers.js:309:5)
+    at async NodeHfs.<anonymous> (file:///E:/src/fullstackopen/fullstackopen_part3/phonebook-api/node_modules/@humanfs/core/src/hfs.js:586:29)
+    at async NodeHfs.walk (file:///E:/src/fullstackopen/fullstackopen_part3/phonebook-api/node_modules/@humanfs/core/src/hfs.js:614:3)

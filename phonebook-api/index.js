@@ -1,3 +1,4 @@
+const path = require('path');
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
@@ -9,10 +10,8 @@ app.use(express.json());
 
 const Person = require('./models/person');
 
-morgan.token('body', (req) => { 
-  return req.method === 'POST' ? 
-  JSON.stringify(req.body) 
-  : ''; 
+morgan.token('body', (req) => {
+  return req.method === 'POST' ? JSON.stringify(req.body) : '';
 });
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
@@ -20,58 +19,64 @@ app.use(morgan('tiny'));
 
 app.get('/info', async (req, res, next) => {
   try
-  { 
-    const count = await Person.countDocuments({}); 
+  {
+    const count = await Person.countDocuments({});
     res.send(` <p>Phonebook has info for ${count} people</p> <p>${new Date()}</p> `);
-  } 
-  catch (error) 
-  { 
-    next(error); 
+  }
+  catch (error)
+  {
+    next(error);
   }
 });
 
 app.get('/api/persons', async (req, res, next) => {
-  const persons = await Person.find({}); 
-  res.json(persons);
+  try
+  {
+    const persons = await Person.find({});
+    res.json(persons);
+  }
+  catch (error)
+  {
+    next(error);
+  }
 });
 
 app.get('/api/persons/:id', async (req, res, next) => {
   try
   {
-    const id = Number(req.params.id); 
-    const person = await Person.findById(id); 
-    if (!person) 
+    const id = Number(req.params.id);
+    const person = await Person.findById(id);
+    if (!person)
     {
-       return res
-        .status(404)
-        .json({ error: 'person not found' });
-     } 
-     res.json(person);
-    } catch (error) 
-    { 
-      next(error); 
+      return res.status(404).json({ error: 'person not found' });
     }
+    res.json(person);
+  }
+  catch (error)
+  {
+    next(error);
+  }
 });
 
-app.delete('/api/persons/:id', async (req, res, next) => { 
+app.delete('/api/persons/:id', async (req, res, next) => {
   try
   {
-    const id = Number(req.params.id); 
-    const person = await Person.findById(id); 
-    if (!person) 
-    { 
+    const id = Number(req.params.id);
+    const person = await Person.findById(id);
+    if (!person)
+    {
       return res
         .status(404)
-        .json({ error: 'person not found' }); 
-    } 
-    await Person.findByIdAndDelete(id); 
+        .json({ error: 'person not found' });
+    }
+    await Person.findByIdAndDelete(id);
     res
       .status(204)
       .end();
-  } 
-  catch (error) 
-  { 
-      next(error);
+  }
+  catch (error)
+  {
+    next(error);
   }
 });
 
@@ -81,25 +86,25 @@ app.post('/api/persons', async (req, res, next) => {
   try
   {
     // Check input fields
-    if (!body.name) 
+    if (!body.name)
     {
       errors.push('name missing');
     }
 
-    if (!body.number) 
+    if (!body.number)
     {
       errors.push('number missing');
     }
     // IS person already exists
     const nameExists = await Person.findOne({ name: body.name });
-    if (nameExists) 
+    if (nameExists)
     {
       errors.push('name must be unique');
     }
 
     // If there is errors, return all error same time
-    if (errors.length > 0) 
-      {
+    if (errors.length > 0)
+    {
       return res.status(400).json({ errors });
     }
 
@@ -112,23 +117,27 @@ app.post('/api/persons', async (req, res, next) => {
       number: body.number
     });
 
-    const saved = await person.save();
-
-    // Resource location where created resource can be load later....
-    const resourceUrl = `/api/persons/${newId}`;
-    res
-      .status(201)
-      .location(resourceUrl)
-      .json(person);
+    var saved = await person.save();
+    if (saved)
+    {
+      // Resource location where created resource can be load later....
+      const resourceUrl = `/api/persons/${newId}`;
+      res.status(201).location(resourceUrl).json(person);
+    }
+    else
+    {
+      errors.push('Save failed');
+      return res.status(400).json({ errors });
+    }
   }
-  catch (error) 
-  { 
-    next(error); 
+  catch (error)
+  {
+    next(error);
   }
 });
 
 app.put('/api/persons/:id', async (req, res, next) => {
-  try 
+  try
   {
     const { name, number } = req.body;
 
@@ -138,53 +147,48 @@ app.put('/api/persons/:id', async (req, res, next) => {
       {
         new: true,            // Return updated document
         runValidators: true,  // Use schema validation
-        context: 'query'      // Mongoose validation 
+        context: 'query'      // Mongoose validation
       }
     );
 
-    if (!updatedPerson) 
+    if (!updatedPerson)
     {
-      return res
-      .status(404)
-      .json({ error: 'person not found' });
+      return res.status(404).json({ error: 'person not found' });
     }
 
     res.json(updatedPerson);
-
-  } 
-  catch (error) 
+  }
+  catch (error)
   {
     next(error);
   }
 });
 
-// Unknown endpoint
+// Unknown API endpoints
+app.use('/api/', (req, res) => {
+  res.status(404).json({ error: 'unknown endpoint' });
+});
+
+// React fallback for all other routes
 app.use((req, res) => {
-  res
-    .status(404)
-    .send({ error: 'unknown endpoint' });
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });
 
 // Error handler middleware
 app.use((error, req, res, next) => {
   console.error(error.message);
 
-  if (error.name === 'CastError') 
-    {
-    return res
-      .status(400)
-      .json({ error: 'malformatted id' });
+  if (error.name === 'CastError')
+  {
+    return res.status(400).json({ error: 'malformatted id' });
   }
 
-  if (error.name === 'ValidationError') 
+  if (error.name === 'ValidationError')
   {
-    return res
-      .status(400)
-      .json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
   next(error);
 });
-
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

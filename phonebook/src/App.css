@@ -40,3 +40,65 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Keskitys koko näkymässä */
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0b1020;
+}
+
+/* Valkoinen kortti */
+.card {
+  position: relative;
+  padding: 2rem;
+  border-radius: 16px;
+  background: white;
+  z-index: 1;
+}
+
+/* Gradient-reunus pseudo-elementillä */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -4px; /* reunuksen paksuus */
+  border-radius: 20px;
+  background: linear-gradient(
+    to right,
+    #001a4d,
+    #003a8c,
+    #4d8cff
+  );
+  z-index: -1;
+}
+
+/* Otsikko + kursori */
+.title {
+  font-family: "Fira Code", monospace;
+  font-size: 1.8rem;
+  color: #001a4d;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Vilkkuva konsolikursori */
+.cursor {
+  display: inline-block;
+  width: 0.12rem;
+  height: 1.6rem;
+  margin-left: 0.3rem;
+  background: #001a4d;
+  animation: blink 1s steps(2, start) infinite;
+}
+
+/* Vilkkumisanimaatio */
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  50.01%, 100% {
+    opacity: 0;
+  }
+}

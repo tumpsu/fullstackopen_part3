@@ -15,17 +15,24 @@
     "preview": "vite preview",
     "server": "json-server -p 3001 db.json",
     "build:ui": "rimraf ../phonebook-api/dist && cd ../phonebook && npm run build && cpy dist ../phonebook-api --recursive"
-},
+  },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
+    "@babel/eslint-parser": "^7.28.6",
+    "@babel/preset-react": "^7.28.5",
+    "@eslint/js": "^9.39.2",
+    "@stylistic/eslint-plugin": "^5.8.0",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
-    "eslint": "^9.39.1",
+    "cpy-cli": "^7.0.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "json-server": "^1.0.0-beta.5",
+    "rimraf": "^6.1.2",
     "vite": "^7.2.4"
   }
 }

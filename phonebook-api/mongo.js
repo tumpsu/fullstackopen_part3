@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-if (process.argv.length < 3) 
+if (process.argv.length < 3)
 {
   console.log('give password as argument');
   process.exit(1);
@@ -24,7 +24,7 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model('Person', personSchema);
 
 // Only password ginen, list all
-if (process.argv.length === 3) 
+if (process.argv.length === 3)
 {
   Person.find({}).then(result => {
     console.log('phonebook:');
@@ -36,7 +36,7 @@ if (process.argv.length === 3)
 }
 
 // Jos annettu nimi ja numero → lisää uusi
-if (process.argv.length === 5) 
+if (process.argv.length === 5)
 {
   const person = new Person({
     name: name,
